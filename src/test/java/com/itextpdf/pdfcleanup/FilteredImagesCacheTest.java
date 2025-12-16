@@ -68,7 +68,7 @@ public class FilteredImagesCacheTest extends ExtendedITextTest {
         }
 
         cleanUp(pdfDocument, cleanUpLocations);
-        compareByContent(cmp, output, outputPath, "1.2");
+        compareByContent(cmp, output, outputPath, "1.6");
         assertNumberXObjects(output, 1);
     }
 
@@ -107,7 +107,7 @@ public class FilteredImagesCacheTest extends ExtendedITextTest {
         }
 
         cleanUp(pdfDocument, cleanUpLocations);
-        compareByContent(cmp, output, outputPath, "1.2");
+        compareByContent(cmp, output, outputPath, "1.6");
         assertNumberXObjects(output, 5);
     }
 
@@ -127,7 +127,7 @@ public class FilteredImagesCacheTest extends ExtendedITextTest {
         }
 
         cleanUp(pdfDocument, cleanUpLocations);
-        compareByContent(cmp, output, outputPath, "1.2");
+        compareByContent(cmp, output, outputPath, "1.6");
         assertNumberXObjects(output, 2);
     }
 
@@ -157,7 +157,7 @@ public class FilteredImagesCacheTest extends ExtendedITextTest {
         }
 
         cleanUp(pdfDocument, cleanUpLocations);
-        compareByContent(cmp, output, outputPath, "1.2");
+        compareByContent(cmp, output, outputPath, "1.6");
         assertNumberXObjects(output, 1);
     }
 
@@ -184,7 +184,7 @@ public class FilteredImagesCacheTest extends ExtendedITextTest {
 
         pdfDocument.close();
 
-        compareByContent(cmp, output, outputPath, "1.2");
+        compareByContent(cmp, output, outputPath, "1.6");
         assertNumberXObjects(output, 1);
     }
 
@@ -211,7 +211,7 @@ public class FilteredImagesCacheTest extends ExtendedITextTest {
 
         pdfDocument.close();
 
-        compareByContent(cmp, output, outputPath, "1.2");
+        compareByContent(cmp, output, outputPath, "1.6");
         assertNumberXObjects(output, 1);
     }
 

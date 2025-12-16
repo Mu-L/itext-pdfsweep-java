@@ -419,7 +419,7 @@ public class PdfCleanUpToolTest extends ExtendedITextTest {
 
         cleanUp(input, output, Arrays.asList(new PdfCleanUpLocation(1, new Rectangle(150f, 235f, 230f, 445f))));
         CleanUpImagesCompareTool cmpTool = new CleanUpImagesCompareTool();
-        String errorMessage = cmpTool.extractAndCompareImages(output, cmp, OUTPUT_PATH, "1.2");
+        String errorMessage = cmpTool.extractAndCompareImages(output, cmp, OUTPUT_PATH, "2.0");
         String compareByContentResult = cmpTool.compareByContent(output, cmp, OUTPUT_PATH);
         if (compareByContentResult != null) {
             errorMessage += compareByContentResult;
