@@ -90,7 +90,7 @@ public class PdfCleanUpToolWithInlineImagesTest extends ExtendedITextTest {
 
         cleanUp(input, output, null);
         CleanUpImagesCompareTool cmpTool = new CleanUpImagesCompareTool();
-        String errorMessage = cmpTool.extractAndCompareImages(output, cmp, outputPath, "1");
+        String errorMessage = cmpTool.extractAndCompareImages(output, cmp, outputPath, "1.2");
         String compareByContentResult = cmpTool.compareByContent(output, cmp, outputPath);
         if (compareByContentResult != null) {
             errorMessage += compareByContentResult;

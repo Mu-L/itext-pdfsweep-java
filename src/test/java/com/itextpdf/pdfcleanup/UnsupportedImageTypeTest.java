@@ -31,13 +31,14 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.WriterProperties;
 import com.itextpdf.kernel.utils.CompareTool;
 import com.itextpdf.pdfcleanup.exceptions.CleanupExceptionMessageConstant;
+import com.itextpdf.pdfcleanup.util.CleanUpImageUtil;
 import com.itextpdf.test.ExtendedITextTest;
-
-import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 @Tag("IntegrationTest")
 public class UnsupportedImageTypeTest extends ExtendedITextTest {
@@ -62,17 +63,15 @@ public class UnsupportedImageTypeTest extends ExtendedITextTest {
         Rectangle area = pdfDocument.getPage(pageIndex).getPageSize();
         workingTool.addCleanupLocation(new PdfCleanUpLocation(pageIndex, area, ColorConstants.RED));
 
-        String javaVendor = System.getProperty("java.vendor");
-        System.out.println("Java Vendor: " + javaVendor);
-        String javaVer = System.getProperty("java.version");
-        System.out.println("Java Version: " + javaVer);
-
-        if (isFixedInJdk(javaVer, javaVendor)) {
+        try {
             workingTool.cleanUp();
             pdfDocument.close();
             compareByContent(cmp, output, OUTPUT_PATH, "diff_UnsupportedImageType_");
-        } else {
-            Exception e = Assertions.assertThrows(Exception.class, () -> workingTool.cleanUp());
+        } catch (CleanUpImageUtil.CleanupImageHandlingUtilException e) {
+            // CMYK bug https://bugs.openjdk.org/browse/JDK-8274735 in openJDK:
+            // fixed for jdk8 from 351 onwards, for jdk11 from 16 onwards and for jdk17 starting from 4.
+            // Amazon corretto jdk started support CMYK for JPEG from 11 version.
+            // Temurin 8 does not support CMYK for JPEG either.
             Assertions.assertTrue(
                     StringNormalizer.toLowerCase(CleanupExceptionMessageConstant.UNSUPPORTED_IMAGE_TYPE)
                             .equals(StringNormalizer.toLowerCase(e.getMessage())) ||
@@ -80,48 +79,6 @@ public class UnsupportedImageTypeTest extends ExtendedITextTest {
             pdfDocument.close();
         }
 
-    }
-
-    private static boolean isFixedInJdk(String versionStr, String vendorStr) {
-        //Fixed CMYK bug https://bugs.openjdk.org/browse/JDK-8274735 for openJDK:
-        //jdk8 from 351 onwards, for jdk11 from 16 onwards and for jdk17 starting from 4.
-        //Amazon corretto jdk started support CMYK for JPEG from 11 version.
-        boolean isFixed = false;
-        int majorVer = getMajorVer(versionStr);
-        String[] split = versionStr.split("[._-]");
-        int minorVer = Integer.parseInt(split[split.length - 1]);
-
-        switch (majorVer) {
-            case 8:
-                if ("Amazon.com Inc.".equals(vendorStr)) {
-                    return false;
-                }
-
-                isFixed = minorVer >= 351;
-                break;
-            case 11:
-                isFixed = minorVer >= 16;
-                break;
-            case 17:
-                isFixed = minorVer >= 4;
-                break;
-            default:
-                isFixed = true;
-        }
-
-        return isFixed;
-    }
-
-    private static int getMajorVer(String versionStr) {
-        int majorVer = 0;
-        String[] split = versionStr.split("\\.");
-        if (versionStr.startsWith("1.")) {
-            //jdk versions 1 - 8 have 1. as prefix
-            majorVer = Integer.parseInt(split[1]);
-        } else {
-            majorVer = Integer.parseInt(split[0]);
-        }
-        return majorVer;
     }
 
     private void compareByContent(String cmp, String output, String targetDir, String diffPrefix)

@@ -59,22 +59,22 @@ public class MaskedImagesTest extends ExtendedITextTest {
 
     @Test
     public void imageTransparencyMask() throws IOException, InterruptedException {
-        runTest("imageMask", "1");
+        runTest("imageMask", "1.6");
     }
 
     @Test
     public void imageTransparencySMask() throws IOException, InterruptedException {
-        runTest("imageSMask", "1");
+        runTest("imageSMask", "1.6");
     }
 
     @Test
     public void imageTransparencySMaskAIS() throws IOException, InterruptedException {
-        runTest("imageSMaskAIS", "1");
+        runTest("imageSMaskAIS", "1.6");
     }
 
     @Test
     public void imageTransparencyColorKeyMaskArray() throws IOException, InterruptedException {
-        runTest("imageColorKeyMaskArray", "1");
+        runTest("imageColorKeyMaskArray", "1.6");
     }
 
     @Test
