@@ -27,7 +27,10 @@ import java.util.regex.Pattern;
 /**
  * This class contains some of the more common regular expressions to be used for redaction.
  * Most of these are copied verbatim from the "regular expression cookbook 2nd edition".
+ *
+ * @deprecated to be removed
  */
+@Deprecated
 public class CommonRegex {
 
     /*
